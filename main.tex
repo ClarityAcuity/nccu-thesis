@@ -1,6 +1,6 @@
-\documentclass[]{thesis}  % draft mode (default)
+%\documentclass[]{thesis}  % draft mode (default)
 %\documentclass[review]{thesis}  % review mode (show contents & reference only)
-%\documentclass[watermark,final]{thesis}  % final mode (version for library)
+\documentclass[zh,final,12pt]{thesis}  % final mode (version for library)
 
 %-------------------------------------------------------------------------------
 % Package Loading
@@ -20,7 +20,7 @@
 \input{config/fonts}
 
 \begin{document}
-
+\linespread{1.25}
 % Show repeated author names in bibliography when using IEEEtran.bst
 % Comment out this line if you don't set IEEEtran in \bibliographystyle{}
 \bstctlcite{IEEEexample:BSTcontrol}
@@ -46,7 +46,7 @@
 \input{ack/ack}
 
 % 題獻頁 (Only shown in the final mode of a PhD dissertation)
-\input{ack/dedication}
+%\input{ack/dedication}
 
 %-------------------------------------------------------------------------------
 % 目錄
@@ -64,11 +64,12 @@
 \mainmatter
 
 % 內文, 請依照章節順序擺放
-\input{chapters/1-intro}
-\input{chapters/2-doccls}
-\input{chapters/3-secorder}
-\input{chapters/4-ref}
-\input{chapters/5-figure}
+\input{chapters/1_introduction}
+\input{chapters/2_relatedwork}
+\input{chapters/3_method}
+\input{chapters/4_discussion}
+\input{chapters/5_conclusion}
+%\input{chapters/latex-intro}
 
 %-------------------------------------------------------------------------------
 % 參考文獻
@@ -98,22 +99,22 @@
 %-------------------------------------------------------------------------------
 
 % Start appendix
-\appendix
+%\appendix
 
 % Add appendicies to "Table of Contents"
-\addAppxToContents
+%\addAppxToContents
 
 % 請從此開始依序擺放附錄
-\input{appx/1-appendix}
+%\input{appx/1-appendix}
 
 %-------------------------------------------------------------------------------
 % 作者簡歷
 %-------------------------------------------------------------------------------
 
 % 簡歷 (Only shown in a PhD dissertation)
-\input{author/cv}
+%\input{author/cv}
 
 % 著作列表 (Only shown in a PhD dissertation)
-\input{author/publications}
+%\input{author/publications}
 
 \end{document}

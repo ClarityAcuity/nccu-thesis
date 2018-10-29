@@ -103,7 +103,9 @@
 \usepackage{tocloft}	  % centering toc, lof, and lot
 \usepackage{caption}	  % for subfigure
 \usepackage[labelformat=simple]{subcaption} % for subfigure
-\usepackage[chapter]{algorithm}  % formating the numbering of algorithm label
+%\usepackage[chapter]{algorithm}  % formating the numbering of algorithm label
+\usepackage[ruled,vlined]{algorithm2e} % algorithm2e package
+\usepackage{float}		  % for position 'H'
 
 %-------------------------------------------------------------------------------
 % Page Format
@@ -111,9 +113,9 @@
 
 % Page margin
 \ifTHESISOPTIONbinding  % only valid in final mode
-  \geometry{left=3 cm, right=2 cm, top=2.5 cm, bottom=2.5 cm}%
+  \geometry{left=2.5 cm, right=2.5 cm, top=2.54 cm, bottom=2.54 cm}%
 \else
-  \geometry{left=2.5 cm, right=2.5 cm, top=2.5 cm, bottom=2.5 cm}%
+  \geometry{left=2.5 cm, right=2.5 cm, top=2.54 cm, bottom=2.54 cm}%
 \fi
 
 % Position of page number
@@ -228,6 +230,9 @@
 % The name of university in Chinese
 \def\universityzh#1{\gdef\@universityzh{#1}}
 
+% The name of university and institute in Chinese
+\def\universityinstitutezh#1{\gdef\@universityinstitutezh{#1}}
+
 % The location of university
 \def\location#1{\gdef\@location{#1}}
 
@@ -286,22 +291,22 @@
 % Define macros related to degree
 \ifTHESISOPTIONmaster
   \thesistype{Thesis}%
-  \thesistypezh{碩士論文}%
+  \thesistypezh{碩士學位論文}%
   \degree{Master}%
   \reservedfrontpages{2}% 授權書 + 中文審定書
 \else
   \thesistype{Dissertation}%
-  \thesistypezh{博士論文}%
+  \thesistypezh{博士學位論文}%
   \degree{Doctor of Philosophy}%
   \reservedfrontpages{3}% 授權書 + 中文審定書 + 英文審定書
 \fi
 
 % Define language-related macros for front pages and back pages
 \ifTHESISOPTIONzh
-  \acktitle{誌謝}%
-  \toctitle{目錄}%
-  \loftitle{圖目錄}%
-  \lottitle{表目錄}%
+  \acktitle{謝辭}%
+  \toctitle{目次}%
+  \loftitle{圖次}%
+  \lottitle{表次}%
   \bibtitle{參考文獻}%
   \cvtitle{自傳}%
   \loptitle{著作目錄}%
@@ -324,18 +329,18 @@
 %-------------------------------------------------------------------------------
 
 % Place the titles of ToC, LoF, and LoT to center and set the font of the titles
-\renewcommand{\cfttoctitlefont}{\hspace*{\fill}\Huge\bfseries}
+\renewcommand{\cfttoctitlefont}{\hspace*{\fill}\LARGE\bfseries}
 \renewcommand{\cftaftertoctitle}{\hspace*{\fill}}
-\renewcommand{\cftlottitlefont}{\hspace*{\fill}\Huge\bfseries}
+\renewcommand{\cftlottitlefont}{\hspace*{\fill}\LARGE\bfseries}
 \renewcommand{\cftafterlottitle}{\hspace*{\fill}}
-\renewcommand{\cftloftitlefont}{\hspace*{\fill}\Huge\bfseries}
+\renewcommand{\cftloftitlefont}{\hspace*{\fill}\LARGE\bfseries}
 \renewcommand{\cftafterloftitle}{\hspace*{\fill}}
 
 % Set the language used in ToC, LoF, and LoT
 \ifTHESISOPTIONzh
   \renewcommand{\contentsname}{\makebox[3em][s]{\@toctitle}}%
-  \renewcommand{\listfigurename}{\makebox[4em][s]{\@loftitle}}%
-  \renewcommand{\listtablename}{\makebox[4em][s]{\@lottitle}}%
+  \renewcommand{\listfigurename}{\makebox[3em][c]{\@loftitle}}%
+  \renewcommand{\listtablename}{\makebox[3em][c]{\@lottitle}}%
   \renewcommand{\tablename}{表}%
   \renewcommand{\figurename}{圖}%
 \else
@@ -347,8 +352,14 @@
 % Set the chapter numbering to Chinese number in ToC
 \ifTHESISOPTIONzh
   \titlecontents{chapter}[0pt]{}%
-  {\bfseries\xCJKnumber{\thecontentslabel}、\hspace{0.5em}}{}%
+  {\bfseries 第\xCJKnumber{\thecontentslabel}章\hspace{0.5em}}{}%
   {\cftdotfill{\cftdotsep}\contentspage}%
+%   \titlecontents{section}[1em]{}
+%   {\normalfont\makebox[4em][l]{\thecontentslabel 節}}{}
+%   {\cftdotfill{\cftdotsep}\contentspage}
+%   \titlecontents{subsection}[2em]{}
+%   {\normalfont\makebox[5.5em][l]{\thecontentslabel 小節}}{}
+%   {\cftdotfill{\cftdotsep}\contentspage}
 \else
 % Format the chapter numbering in ToC when using English
   \titlecontents{chapter}[0pt]{}%
@@ -370,16 +381,16 @@
   \phantomsection
   \addcontentsline{toc}{chapter}{\textbf{\@toctitle}}%
   \tableofcontents
-% List of Figures
-  \cleardoublepage
-  \phantomsection
-  \addcontentsline{toc}{chapter}{\textbf{\@loftitle}}%
-  \listoffigures
 % List of Tables
   \cleardoublepage
   \phantomsection
   \addcontentsline{toc}{chapter}{\textbf{\@lottitle}}%
   \listoftables
+% List of Figures
+  \cleardoublepage
+  \phantomsection
+  \addcontentsline{toc}{chapter}{\textbf{\@loftitle}}%
+  \listoffigures
 \fi
 }
 
@@ -390,8 +401,8 @@
 % Set the position of chapter label and title
 \ifTHESISOPTIONzh
   \titleformat{\chapter}[block]% (place label and title body at the same line)
-  {\centering\Huge\bfseries}%
-  {\xCJKnumber{\thechapter}、\hspace{0.5em}}% (X、 ...)
+  {\centering\LARGE\bfseries}%
+  {第\xCJKnumber{\thechapter}章\hspace{0.5em}}% (X、 ...)
   {0em}{}%
 \else
   \titleformat{\chapter}[display]% (title body is placed at second line)
@@ -416,6 +427,14 @@
 % Set the spacing before and after chapter label/title
 %   {type}{left}{before seperation}{after seperation}
 \titlespacing*{\chapter}{0em}{-40pt}{*6}
+\titleformat{\section}
+  {\centering\Large\bfseries}
+  {\thesection 節\hspace{0.5em}}
+  {1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection 小節\hspace{0.5em}}
+  {1em}{}
 
 %-------------------------------------------------------------------------------
 % Watermark
@@ -437,8 +456,8 @@
 % for final mode: print the watermark specified by \watermark{}
   \ifTHESISOPTIONfinal
     \begin{tikzpicture}%
-      \node[minimum width=\paperwidth,minimum height=\paperheight,opacity=0.75]%
-        {\includegraphics[width=0.75\textwidth]{\@watermark}};%
+      \node[minimum width=\paperwidth,minimum height=\paperheight,opacity=1]%
+        {\includegraphics[width=1\textwidth]{\@watermark}};%
     \end{tikzpicture}%
   \fi
 \fi
@@ -521,7 +540,7 @@
 
 % Change the numbering style of algorithms to [chapter].[algorithm]
 %   Note that: you need to use \caption before \label
-\renewcommand{\thealgorithm}{\arabic{chapter}.\arabic{algorithm}}
+%\renewcommand{\thealgorithm}{\arabic{chapter}.\arabic{algorithm}}
 
 %-------------------------------------------------------------------------------
 % Appendicies
@@ -563,58 +582,62 @@
 
 \def\coverpage
 {
-  \thispagestyle{empty}%
+\AddToShipoutPicture{\BackgroundPicture}%
+  \thispagestyle{empty} %
 % University, institute, and title
   \begin{center}
-    % University
-    %\fontsize{40}{40}{\makebox[10cm][s]{\textsf{\@universityzh}}}\\
-    \fontsize{40}{40}{\makebox[10cm][s]{\@universityzh}}\\
-    \vspace{1.5\baselineskip}
+  	% University and Institute
+    \fontsize{18}{18}{\makebox[\width][c]{\textbf{\@universityinstitutezh}}}\\
     % Institute
     %\fontsize{28}{28}{\makebox[1.333\width][s]{\textbf{\textsf{\@institutezh}}}}\\
-    \fontsize{28}{28}{\makebox[1.333\width][s]{\textbf{\@institutezh}}}\\
-    \vspace{1.5\baselineskip}
+    %\fontsize{18}{18}{\makebox[\width][c]{\textbf{\@institute}}}\\
+    % University
+    %\fontsize{18}{18}{\makebox[\width][c]{\textbf{\@university}}}\\
+    \vspace{0.5\baselineskip}
     % Thesis type
     %\fontsize{24}{24}{\makebox[4.5cm][s]{\textbf{\textsf{\@thesistypezh}}}}\\
-    \fontsize{24}{24}{\makebox[4.5cm][s]{\textbf{\@thesistypezh}}}\\
+    \fontsize{18}{18}{\makebox[\width][c]{\textbf{\@thesistypezh}}}\\
     \ifTHESISOPTIONdraft
-      \vspace{1.5\baselineskip}
+      \vspace{1\baselineskip}
       %\makebox[2cm][s]{\textbf{\textsf{初稿}}}\\
-      \makebox[2cm][s]{\textbf{初稿}}\\
+      \makebox[4.5cm][s]{\textbf{Master's Thesis}}\\
     \fi
-    \vfill
+    \vspace{1in}
     \singlespacing % set single spacing
     % Chinese title
-    \LARGE{\@titlezh}\\
-    \vspace{0.75\baselineskip}
+    \fontsize{20}{20}{\textbf{\@titlezh}}\\
+    \vspace{1\baselineskip}
     % English title
-    \LARGE{\@title}\\
+    \fontsize{16}{16}{\textbf{\@title}}\\
     \vfill
   \end{center}
 % Author & advisors
-  \begin{flushleft}%
+  \begin{center}%
     \singlespacing
     \LARGE
     \begin{tabular}{crll}%
-    % Author
-      &\LARGE{\makebox[4em][s]{研究生}：}&{\@authorzh}&\vspace{1em}\\%
     % Advisor
-      &{指導教授：}&{\@advisorzh}&{博士}\\%
+      %&{指導教授：}&{\@advisorzh}\\%
+      &\fontsize{18pt}{18pt}{\makebox[\width][r]{指導教授}：}&\fontsize{18pt}{18pt}{\@advisorzh}&\fontsize{18pt}{18pt}{博士}\\%
+      \vspace{1\baselineskip}\\
+    % Author
+      %&\LARGE{\makebox[4em][s]{研究生}：}&{\@authorzh}&\vspace{1em}\\%
+      &\fontsize{18pt}{18pt}{\makebox[\width][r]{研究生}：}&\fontsize{18pt}{18pt}{\@authorzh}&\fontsize{18pt}{18pt}{撰}\\%
     % Co-Advisor A
       \ifx \@coadvisorAzh \@empty \else
-        &&{\@coadvisorAzh}&{博士}\\%
+        &&{\@coadvisorAzh}\\%
       \fi
     % Co-Advisor B
       \ifx \@coadvisorBzh \@empty \else
-        &&{\@coadvisorBzh}&{博士}\\%
+        &&{\@coadvisorBzh}\\%
       \fi
     \end{tabular}%
-  \end{flushleft}
+  \end{center}
   \vspace{1in}
-  \vfill
 % Submission date in Chinese
   \begin{center}
-    \makebox[2.5\width][s]{\large\@degreeyearzh}\\
+    \fontsize{18pt}{18pt}{\makebox[\width][c]{\@degreeyearzh}}\\
+    %\makebox[1em][s]{\@degreemonth \@degreeyear}
   \end{center}
 }
 
@@ -625,7 +648,7 @@
 \def\titlepage
 {
   \cleardoublepage
-  \ClearShipoutPicture  % remove watermark in this page
+  %\ClearShipoutPicture  % remove watermark in this page
   \thispagestyle{empty}
 % Chines & English titles
   \begin{center}
@@ -780,7 +803,7 @@
 
 % Copyright page (final mode only)
   \ifTHESISOPTIONfinal
-    \copyrightpage
+    %\copyrightpage
   \fi
 \fi
 }}
@@ -909,7 +932,7 @@
 \def\ackpage
 {
   \cleardoublepage
-  \ClearShipoutPicture  % remove watermark in this page
+  %\ClearShipoutPicture  % remove watermark in this page
   \phantomsection
   \addcontentsline{toc}{chapter}{\textbf{\@acktitle}}
   \begin{center}
